@@ -1,17 +1,15 @@
-package com.movoto.movoto.Buy.Contoller;
+package com.movoto.movoto.Buy.Controller;
 
 import com.movoto.movoto.Buy.Entity.Property;
-import com.movoto.movoto.Buy.Entity.PropertyImage;
+import com.movoto.movoto.Buy.Entity.PropertyType;
 import com.movoto.movoto.Buy.Payload.PropertyDto;
-import com.movoto.movoto.Buy.Payload.PropertyWithImagesDTO;
 import com.movoto.movoto.Buy.Service.PropertyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -67,6 +65,24 @@ public class PropertyController {
 
             return new ResponseEntity<>(properties,HttpStatus.OK);
 
+    }
+
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<Property>> filterProperties(
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String state,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(required = false) Integer bedrooms,
+            @RequestParam(required = false) Integer bathrooms,
+            @RequestParam(required = false) PropertyType propertyType,
+            @RequestParam(required = false) Integer minSquareFeet) {
+
+        List<Property> properties = propertyService.filterProperties(
+                city, state, minPrice, maxPrice, bedrooms, bathrooms, propertyType, minSquareFeet);
+
+        return ResponseEntity.ok(properties);
     }
 
 }

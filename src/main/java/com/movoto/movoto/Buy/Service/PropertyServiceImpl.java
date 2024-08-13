@@ -2,6 +2,7 @@ package com.movoto.movoto.Buy.Service;
 
 import com.movoto.movoto.Buy.Entity.Property;
 import com.movoto.movoto.Buy.Entity.PropertyImage;
+import com.movoto.movoto.Buy.Entity.PropertyType;
 import com.movoto.movoto.Buy.Exception.ResourceNotFoundException;
 import com.movoto.movoto.Buy.Payload.PropertyDto;
 import com.movoto.movoto.Buy.Payload.PropertyWithImagesDTO;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -137,5 +139,11 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     // Additional methods for filtering, sorting, etc.
+
+
+    public List<Property> filterProperties(String city, String state, BigDecimal minPrice, BigDecimal maxPrice,
+                                           int bedrooms, int bathrooms, PropertyType propertyType, int minSquareFeet) {
+        return propertyRepo.findPropertiesWithFilters(city, state, minPrice, maxPrice, bedrooms, bathrooms, propertyType, minSquareFeet);
+    }
 }
 
